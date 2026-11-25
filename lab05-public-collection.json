@@ -1,0 +1,30 @@
+{
+  "item": [
+    {
+      "event": [
+        {
+          "script": {
+            "exec": [
+              "pm.test('HTTP 200',function(){pm.response.to.have.status(200);});",
+              "pm.test('Массив хариу',function(){pm.expect(pm.response.json()).to.be.an('array');});",
+              "pm.test('Эхний хэрэглэгчийн нэр',function(){pm.expect(pm.response.json()[0].name).to.eql('Leanne Graham');});"
+            ],
+            "type": "text/javascript"
+          },
+          "listen": "test"
+        }
+      ],
+      "name": "JSONPlaceholder хэрэглэгчид",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "https://jsonplaceholder.typicode.com/users"
+      }
+    }
+  ],
+  "info": {
+    "_postman_id": "fb8dd3c6-77ce-40a5-8503-4a62e3f75a1e",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "name": "Лаб 5 — Нийтийн API"
+  }
+}
