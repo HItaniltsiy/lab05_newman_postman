@@ -651,6 +651,40 @@
         }
       ],
       "name": "Урьдачийн заримыг үзсэн"
+    },
+    {
+      "name": "Буруу JSON",
+      "item": [
+        {
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP статус',function(){pm.response.to.have.status(400);});",
+                  "pm.test('result утга',function(){pm.expect(pm.response.json().result).to.eql('ERROR_BAD_JSON');});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "url": "{{baseUrl}}/registrations",
+            "body": {
+              "raw": "{\"studentID\":",
+              "mode": "raw"
+            }
+          },
+          "name": "Буруу JSON"
+        }
+      ]
     }
   ],
   "info": {
