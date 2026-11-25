@@ -1,0 +1,661 @@
+{
+  "variable": [
+    {
+      "type": "string",
+      "value": "http://localhost:3000",
+      "key": "baseUrl"
+    }
+  ],
+  "item": [
+    {
+      "name": "Амжилттай бүртгэл",
+      "item": [
+        {
+          "name": "Оюутны тохиргоо",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"active\",\"coursesTaken\":[\"CS201\",\"CS202\"]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/students/B231234567",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "PUT"
+          }
+        },
+        {
+          "name": "Хичээлийн тохиргоо",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"prerequisites\":[\"CS201\"]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/courses/CS313",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "PUT"
+          }
+        },
+        {
+          "name": "Амжилттай бүртгэл",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"studentID\":\"B231234567\",\"courseID\":\"CS313\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/registrations",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "POST"
+          },
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP статус', function () { pm.response.to.have.status(201); });",
+                  "pm.test('result утга', function () { pm.expect(pm.response.json().result).to.eql('OK'); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Оюутан байхгүй",
+      "item": [
+        {
+          "name": "Хичээлийн тохиргоо",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"prerequisites\":[\"CS201\"]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/courses/CS313",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "PUT"
+          }
+        },
+        {
+          "name": "Оюутан байхгүй",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"studentID\":\"MISSING\",\"courseID\":\"CS313\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/registrations",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "POST"
+          },
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP статус', function () { pm.response.to.have.status(200); });",
+                  "pm.test('result утга', function () { pm.expect(pm.response.json().result).to.eql('ERROR_NO_STUDENT'); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Идэвхгүй оюутан",
+      "item": [
+        {
+          "name": "Оюутны тохиргоо",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"inactive\",\"coursesTaken\":[\"CS201\"]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/students/INACTIVE",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "PUT"
+          }
+        },
+        {
+          "name": "Хичээлийн тохиргоо",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"prerequisites\":[\"CS201\"]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/courses/CS313",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "PUT"
+          }
+        },
+        {
+          "name": "Идэвхгүй оюутан",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"studentID\":\"INACTIVE\",\"courseID\":\"CS313\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/registrations",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "POST"
+          },
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP статус', function () { pm.response.to.have.status(200); });",
+                  "pm.test('result утга', function () { pm.expect(pm.response.json().result).to.eql('ERROR_INACTIVE_STUDENT'); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Хичээл байхгүй",
+      "item": [
+        {
+          "name": "Оюутны тохиргоо",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"active\",\"coursesTaken\":[\"CS201\",\"CS202\"]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/students/B231234567",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "PUT"
+          }
+        },
+        {
+          "name": "Хичээл байхгүй",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"studentID\":\"B231234567\",\"courseID\":\"UNKNOWN\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/registrations",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "POST"
+          },
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP статус', function () { pm.response.to.have.status(200); });",
+                  "pm.test('result утга', function () { pm.expect(pm.response.json().result).to.eql('ERROR_NO_COURSE'); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Урьдач нөхцөл хангаагүй",
+      "item": [
+        {
+          "name": "Оюутны тохиргоо",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"active\",\"coursesTaken\":[]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/students/NO_PRE",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "PUT"
+          }
+        },
+        {
+          "name": "Хичээлийн тохиргоо",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"prerequisites\":[\"CS201\"]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/courses/CS313",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "PUT"
+          }
+        },
+        {
+          "name": "Урьдач нөхцөл хангаагүй",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"studentID\":\"NO_PRE\",\"courseID\":\"CS313\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/registrations",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "POST"
+          },
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP статус', function () { pm.response.to.have.status(200); });",
+                  "pm.test('result утга', function () { pm.expect(pm.response.json().result).to.eql('ERROR_PREREQUISITES'); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "courseID талбар дутуу",
+      "item": [
+        {
+          "name": "Оюутны тохиргоо",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"active\",\"coursesTaken\":[\"CS201\",\"CS202\"]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/students/B231234567",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "PUT"
+          }
+        },
+        {
+          "name": "courseID талбар дутуу",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"studentID\":\"B231234567\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/registrations",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "POST"
+          },
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP статус', function () { pm.response.to.have.status(400); });",
+                  "pm.test('result утга', function () { pm.expect(pm.response.json().result).to.eql('ERROR_BAD_REQUEST'); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Урьдачгүй хичээл",
+      "item": [
+        {
+          "name": "Оюутны тохиргоо",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"active\",\"coursesTaken\":[\"CS201\",\"CS202\"]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/students/B231234567",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "PUT"
+          }
+        },
+        {
+          "name": "Хичээлийн тохиргоо",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"prerequisites\":[]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/courses/CS100",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "PUT"
+          }
+        },
+        {
+          "name": "Урьдачгүй хичээл",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"studentID\":\"B231234567\",\"courseID\":\"CS100\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/registrations",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "POST"
+          },
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP статус', function () { pm.response.to.have.status(201); });",
+                  "pm.test('result утга', function () { pm.expect(pm.response.json().result).to.eql('OK'); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Давхар алдаа: идэвхгүй ба хичээлгүй",
+      "item": [
+        {
+          "name": "Оюутны тохиргоо",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"status\":\"inactive\",\"coursesTaken\":[]}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/students/BOTH",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "PUT"
+          }
+        },
+        {
+          "name": "Давхар алдаа: идэвхгүй ба хичээлгүй",
+          "request": {
+            "body": {
+              "mode": "raw",
+              "raw": "{\"studentID\":\"BOTH\",\"courseID\":\"UNKNOWN\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{baseUrl}}/registrations",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ],
+            "method": "POST"
+          },
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP статус', function () { pm.response.to.have.status(200); });",
+                  "pm.test('result утга', function () { pm.expect(pm.response.json().result).to.eql('ERROR_INACTIVE_STUDENT'); });"
+                ]
+              },
+              "listen": "test"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "item": [
+        {
+          "name": "Оюутны тохиргоо",
+          "request": {
+            "method": "PUT",
+            "body": {
+              "raw": "{\"coursesTaken\":[\"CS201\"],\"status\":\"active\"}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/students/PARTIAL"
+          }
+        },
+        {
+          "name": "Хичээлийн тохиргоо",
+          "request": {
+            "method": "PUT",
+            "body": {
+              "raw": "{\"prerequisites\":[\"CS201\",\"CS202\"]}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/courses/CS313"
+          }
+        },
+        {
+          "request": {
+            "method": "POST",
+            "body": {
+              "raw": "{\"studentID\":\"PARTIAL\",\"courseID\":\"CS313\"}",
+              "mode": "raw"
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/registrations"
+          },
+          "name": "Урьдачийн заримыг үзсэн",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('HTTP статус',function(){pm.response.to.have.status(200);});",
+                  "pm.test('result утга',function(){pm.expect(pm.response.json().result).to.eql('ERROR_PREREQUISITES');});",
+                  "pm.test('дутуу урьдач',function(){pm.expect(pm.response.json().missing).to.eql(['CS202']);});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ]
+        }
+      ],
+      "name": "Урьдачийн заримыг үзсэн"
+    }
+  ],
+  "info": {
+    "name": "Лаборатори 5 — API тест",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_postman_id": "f8ec7128-61e9-4c37-a3cb-8f3ed8a051c6"
+  }
+}
