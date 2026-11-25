@@ -685,6 +685,40 @@
           "name": "Буруу JSON"
         }
       ]
+    },
+    {
+      "name": "Оюутан ба хичээл байхгүй",
+      "item": [
+        {
+          "event": [
+            {
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('HTTP статус',function(){pm.response.to.have.status(200);});",
+                  "pm.test('result утга',function(){pm.expect(pm.response.json().result).to.eql('ERROR_NO_STUDENT');});"
+                ]
+              },
+              "listen": "test"
+            }
+          ],
+          "name": "Бүртгүүлэх хүсэлт",
+          "request": {
+            "body": {
+              "raw": "{\"studentID\":\"MISSING_BOTH\",\"courseID\":\"UNKNOWN_BOTH\"}",
+              "mode": "raw"
+            },
+            "method": "POST",
+            "url": "{{baseUrl}}/registrations",
+            "header": [
+              {
+                "value": "application/json",
+                "key": "Content-Type"
+              }
+            ]
+          }
+        }
+      ]
     }
   ],
   "info": {

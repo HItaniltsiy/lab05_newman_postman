@@ -1,0 +1,135 @@
+(node:30128) [DEP0176] DeprecationWarning: fs.F_OK is deprecated, use fs.constants.F_OK instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+newman
+
+Лаборатори 5 — API тест
+
+□ Амжилттай бүртгэл
+└ Оюутны тохиргоо
+  PUT http://localhost:3000/students/B231234567 [200 OK, 178B, 63ms]
+
+└ Хичээлийн тохиргоо
+  PUT http://localhost:3000/courses/CS313 [200 OK, 178B, 10ms]
+
+└ Амжилттай бүртгэл
+  POST http://localhost:3000/registrations [201 Created, 202B, 6ms]
+  √  HTTP статус
+  √  result утга
+
+□ Оюутан байхгүй
+└ Хичээлийн тохиргоо
+  PUT http://localhost:3000/courses/CS313 [200 OK, 178B, 4ms]
+
+└ Оюутан байхгүй
+  POST http://localhost:3000/registrations [200 OK, 192B, 2ms]
+  √  HTTP статус
+  √  result утга
+
+□ Идэвхгүй оюутан
+└ Оюутны тохиргоо
+  PUT http://localhost:3000/students/INACTIVE [200 OK, 178B, 2ms]
+
+└ Хичээлийн тохиргоо
+  PUT http://localhost:3000/courses/CS313 [200 OK, 178B, 2ms]
+
+└ Идэвхгүй оюутан
+  POST http://localhost:3000/registrations [200 OK, 198B, 3ms]
+  √  HTTP статус
+  √  result утга
+
+□ Хичээл байхгүй
+└ Оюутны тохиргоо
+  PUT http://localhost:3000/students/B231234567 [200 OK, 178B, 4ms]
+
+└ Хичээл байхгүй
+  POST http://localhost:3000/registrations [200 OK, 191B, 4ms]
+  √  HTTP статус
+  √  result утга
+
+□ Урьдач нөхцөл хангаагүй
+└ Оюутны тохиргоо
+  PUT http://localhost:3000/students/NO_PRE [200 OK, 178B, 2ms]
+
+└ Хичээлийн тохиргоо
+  PUT http://localhost:3000/courses/CS313 [200 OK, 178B, 3ms]
+
+└ Урьдач нөхцөл хангаагүй
+  POST http://localhost:3000/registrations [200 OK, 215B, 3ms]
+  √  HTTP статус
+  √  result утга
+
+□ courseID талбар дутуу
+└ Оюутны тохиргоо
+  PUT http://localhost:3000/students/B231234567 [200 OK, 178B, 4ms]
+
+└ courseID талбар дутуу
+  POST http://localhost:3000/registrations [400 Bad Request, 202B, 5ms]
+  √  HTTP статус
+  √  result утга
+
+□ Урьдачгүй хичээл
+└ Оюутны тохиргоо
+  PUT http://localhost:3000/students/B231234567 [200 OK, 178B, 2ms]
+
+└ Хичээлийн тохиргоо
+  PUT http://localhost:3000/courses/CS100 [200 OK, 178B, 2ms]
+
+└ Урьдачгүй хичээл
+  POST http://localhost:3000/registrations [201 Created, 202B, 2ms]
+  √  HTTP статус
+  √  result утга
+
+□ Давхар алдаа: идэвхгүй ба хичээлгүй
+└ Оюутны тохиргоо
+  PUT http://localhost:3000/students/BOTH [200 OK, 178B, 2ms]
+
+└ Давхар алдаа: идэвхгүй ба хичээлгүй
+  POST http://localhost:3000/registrations [200 OK, 198B, 2ms]
+  √  HTTP статус
+  √  result утга
+
+□ Урьдачийн заримыг үзсэн
+└ Оюутны тохиргоо
+  PUT http://localhost:3000/students/PARTIAL [200 OK, 178B, 2ms]
+
+└ Хичээлийн тохиргоо
+  PUT http://localhost:3000/courses/CS313 [200 OK, 178B, 1ms]
+
+└ Урьдачийн заримыг үзсэн
+  POST http://localhost:3000/registrations [200 OK, 215B, 2ms]
+  √  HTTP статус
+  √  result утга
+  √  дутуу урьдач
+
+□ Буруу JSON
+└ Буруу JSON
+  POST http://localhost:3000/registrations [400 Bad Request, 199B, 2ms]
+  √  HTTP статус
+  √  result утга
+
+□ Оюутан ба хичээл байхгүй
+└ Бүртгүүлэх хүсэлт
+  POST http://localhost:3000/registrations [200 OK, 192B, 4ms]
+  √  HTTP статус
+  √  result утга
+
+┌─────────────────────────┬──────────────────┬─────────────────┐
+│                         │         executed │          failed │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│              iterations │                1 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│                requests │               25 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│            test-scripts │               11 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│      prerequest-scripts │                0 │               0 │
+├─────────────────────────┼──────────────────┼─────────────────┤
+│              assertions │               23 │               0 │
+├─────────────────────────┴──────────────────┴─────────────────┤
+│ total run duration: 1308ms                                   │
+├──────────────────────────────────────────────────────────────┤
+│ total data received: 595B (approx)                           │
+├──────────────────────────────────────────────────────────────┤
+│ average response time: 5ms [min: 1ms, max: 63ms, s.d.: 11ms] │
+└──────────────────────────────────────────────────────────────┘
+Exit code: 0
